@@ -1,0 +1,25 @@
+<div class="modal">
+
+    <!-- Modal header bar -->
+    <ion-header-bar class="bar-secondary">
+      <h1 class="title">Nueva tarea</h1>
+      <button class="button button-clear button-positive" ng-click="cerrarNuevaTarea()">Cancelar</button>
+    </ion-header-bar>
+
+    <!-- Modal content area -->
+    <ion-content>
+
+      <form ng-submit="crearTarea(tarea)">
+        <div class="list">
+          <label class="item item-input">
+            <input type="text" placeholder="Escribe aqui la tarea..." ng-model="tarea.titulo">
+          </label>
+        </div>
+        <div class="padding">
+          <button type="submit" class="button button-block button-positive">Crear tarea</button>
+        </div>
+      </form>
+
+    </ion-content>
+
+  </div>

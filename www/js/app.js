@@ -5,9 +5,10 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase' , 'socialAuth.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $state, $rootScope, userSession) {
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -18,80 +19,81 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+
+    //Establezco la pantalla inicio para que empiece en ella
+    $state.go('login');
+
+    $rootScope.$on('$firebaseSimpleLogin:login', function(event, user) {
+       userSession.user=user;
+       $state.go('home.tareas');
+    });
+
+    $rootScope.$on('$firebaseSimpleLogin:error', function(event, error) {
+       console.log('Error logging user in: ', error);
+    });
+
+    $rootScope.$on('$firebaseSimpleLogin:logout', function(event) {
+       $state.go('login');
+    });
+
+
   });
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
+
+  //Configuro los distintos escenarios de la aplicacion
   $stateProvider
-
-  // setup an abstract state for the tabs directive
-  .state('tab', {
-    url: "/tab",
-    abstract: true,
-    templateUrl: "templates/tabs.html"
-  })
-
-
-
-  // Each tab has its own nav history stack:
-
-  .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
-
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-  })
-  
-  .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-   })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  })
-
-  .state('inicio', {
-    url: '/inicio',
-    templateUrl: 'templates/inicio.html',
-    controller: 'InicioCtrl'
-  })
 
   .state('login', {
     url: '/login',
-    templateUrl: 'templates/login.html'
+    templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl'
+  })
+
+
+
+  // Establezco un escenario abstracto para albergar las pestañas
+  .state('home', {
+    url: "/home",
+    abstract: true,
+    templateUrl: "templates/home.html"
+  })
+
+
+  .state('home.tareas', {
+    url: '/tareas',
+    views: {
+      'home-tareas': {
+        templateUrl: 'templates/home-tareas.html',
+        controller: 'TareasCtrl'
+      }
+    }
+  })
+
+  .state('home.video', {
+      url: '/video',
+      views: {
+        'home-video': {
+          templateUrl: 'templates/home-video.html',
+          controller: 'VideoCtrl'
+        }
+      }
+  })
+
+  .state('home.comentarios', {
+    url: '/comentarios',
+    views: {
+      'home-comentarios': {
+        templateUrl: 'templates/home-comentarios.html',
+        controller: 'ComentariosCtrl'
+      }
+    }
   });
 
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+
 
 });
+
+

@@ -48,3 +48,10 @@ angular.module('starter.services', [])
     }
   };
 });
+
+
+
+//Defino un nuevo servicio que almacenara la constante que me permite conectar con Firebase y el objeto en el que se almacenaran los datos
+angular.module('socialAuth.services',[])
+    .value('FIREBASE_REF','https://dazzling-fire-3928.firebaseio.com/')
+    .value('userSession',{});

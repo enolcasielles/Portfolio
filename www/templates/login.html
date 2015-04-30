@@ -1,13 +1,25 @@
-<ion-view view-title="Login">
-  <ion-content class="padding">
-      <div class="list list-inset">
-          <label class="item item-input">
-              <input type="text" placeholder="Username" ng-model="data.username">
-          </label>
-          <label class="item item-input">
-              <input type="password" placeholder="Password" ng-model="data.password">
-          </label>
+
+<ion-view title="Inicio" hide-nav-bar="true" >
+  <ion-content class="inicio center">
+
+      <!-- Una fila con el boton de facebook-->
+      <div class="row">
+        <div class="col">
+            <a class="btn-auth btn-facebook large" ng-click="login('facebook')">
+            	Accede con <b>Facebook</b>
+        	</a>
+        </div>
       </div>
-      <button class="button button-block button-assertive" ng-click="login()">Login</button>
+
+      <!-- Una fila con el boton de twitter-->
+      <div class="row">
+        <div class="col">
+            <a class="btn-auth btn-twitter large" ng-click="login('twitter')">
+            	Accede con <b>Twitter</b>
+          	</a>
+        </div>
+      </div>
+
   </ion-content>
 </ion-view>
+
